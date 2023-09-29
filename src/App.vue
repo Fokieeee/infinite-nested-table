@@ -1,6 +1,6 @@
 <template>
   <MainButton @click="showUserFormModal"> Добавить </MainButton>
-  <UserDataTable :userList="userList" />
+  <UserDataTable :userList="userList" @sortUserList="sortUserList" />
   <UserFormModal
     v-if="isModalVisible"
     @close="closeUserFormModal"
@@ -27,22 +27,22 @@ export default {
       userList: [
         {
           id: "123",
-          fullName: "ilya nachalnik",
+          fullName: "Илья",
           phone: "+2423423",
           level: 0,
           isChildrenOpen: false,
           children: [
             {
               id: "321",
-              fullName: "ilya child 1",
+              fullName: "Андрей илья child",
               phone: "+2423423",
               parentId: "123",
               level: 1,
-              isChildrenOpen: false
+              isChildrenOpen: false,
             },
             {
               id: "333",
-              fullName: "ilya child 2",
+              fullName: "Никита илья child",
               phone: "+2423423",
               parentId: "123",
               level: 1,
@@ -50,11 +50,11 @@ export default {
               children: [
                 {
                   id: "4",
-                  fullName: "ilya child 2 child",
+                  fullName: "Вася Никита child",
                   phone: "+3242",
                   parentId: "333",
                   level: 2,
-                  isChildrenOpen: false
+                  isChildrenOpen: false,
                 },
               ],
             },
@@ -62,31 +62,35 @@ export default {
         },
         {
           id: "334",
-          fullName: "nikita",
+          fullName: "Никита",
           phone: "+2423423",
           level: 0,
           isChildrenOpen: false,
           children: [
             {
               id: "335",
-              fullName: "nikita child 1",
+              fullName: "Влад никита child",
               phone: "+2423423",
               parentId: "334",
               level: 1,
-              isChildrenOpen: false
+              isChildrenOpen: false,
             },
             {
               id: "336",
-              fullName: "nikita child 2",
+              fullName: "Валера никита child",
               phone: "+2423423",
               parentId: "334",
               level: 1,
-              isChildrenOpen: false
+              isChildrenOpen: false,
             },
           ],
         },
       ],
     }
+  },
+  created() {
+    const stringifiedUserList = JSON.parse(localStorage.getItem("userList"))
+    this.userList = stringifiedUserList
   },
   methods: {
     showUserFormModal() {
@@ -114,6 +118,25 @@ export default {
           }
         }
       }
+      localStorage.setItem("userList", JSON.stringify(this.userList))
+    },
+    sortUserList() {
+      this.userList = this.recursiveSort(this.userList)
+      localStorage.setItem("userList", JSON.stringify(this.userList))
+    },
+    recursiveSort(arr) {
+      arr.sort((a, b) => {
+        if (a.fullName < b.fullName) return -1
+        if (a.fullName > b.fullName) return 1
+        return 0
+      })
+
+      for (const item of arr) {
+        if (item.children && item.children.length > 0) {
+          this.recursiveSort(item.children)
+        }
+      }
+      return arr
     },
   },
 }

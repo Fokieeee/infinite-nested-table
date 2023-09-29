@@ -12,7 +12,7 @@
 
       <div class="phone-input-container">
         <p>Телефон</p>
-        <input type="phone" placeholder="Номер телефона" v-model="phone" />
+        <input type="tel" placeholder="Номер телефона" v-model="phone" />
       </div>
 
       <div class="parent-select-container">
@@ -20,6 +20,7 @@
 
         <select name="parents" class="parent-select" v-model="parentId">
           <option disabled value="null">Выберите начальника</option>
+          <option value="">Главный начальник</option>
 
           <template v-for="user in allUsers" :key="user.id">
             <option :value="user.id">{{ user.fullName }}</option>
@@ -29,7 +30,10 @@
     </template>
 
     <template v-slot:footer>
-      <MainButton @click="submit"> Сохранить </MainButton>
+      <MainButton @click="submit">
+        Сохранить
+      </MainButton>
+      <p v-if="incorrectSubmit">Заполните все поля *</p>
     </template>
   </DefaultModal>
 </template>
@@ -53,8 +57,9 @@ export default {
   data() {
     return {
       fullName: null,
-      phone: null,
+      phone: "+7",
       parentId: null,
+      incorrectSubmit: false,
     }
   },
   emits: {
@@ -78,23 +83,31 @@ export default {
       extractAllUsers(this.userList)
       return allUsers
     },
+    isFormFilled() {
+      return !!this.fullName && !!this.phone && this.parentId !== null
+    },
   },
   methods: {
     close() {
       this.$emit("close")
     },
     submit() {
-      const newUserLevel = this.parentId
-        ? this.allUsers.find((user) => user.id === this.parentId).level + 1
-        : 0
-      this.$emit("submit", {
-        id: uuid.v1(),
-        fullName: this.fullName,
-        phone: this.phone,
-        parentId: this.parentId,
-        level: newUserLevel,
-      })
-      this.close()
+      if (this.isFormFilled) {
+        const newUserLevel = this.parentId
+          ? this.allUsers.find((user) => user.id === this.parentId).level + 1
+          : 0
+        this.$emit("submit", {
+          id: uuid.v1(),
+          fullName: this.fullName,
+          phone: this.phone,
+          parentId: this.parentId,
+          level: newUserLevel,
+          isChildrenOpen: false
+        })
+        this.close()
+      } else {
+        this.incorrectSubmit = true
+      }
     },
   },
 }

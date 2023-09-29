@@ -1,10 +1,11 @@
 <template>
   <table class="table-container">
-    <thead>
+    <thead @click="onTableHeadClick">
       <tr class="table-header">
-        <th class="table-cell head" v-for="title in tableTitles" :key="title">
-          {{ title }}
+        <th class="table-cell head">
+          <p class="table-cell-head-text">Имя</p>
         </th>
+        <th class="table-cell head">Телефон</th>
       </tr>
     </thead>
 
@@ -19,11 +20,6 @@ import TableRow from "./TableRow.vue"
 
 export default {
   name: "UserDataTable",
-  data() {
-    return {
-      tableTitles: ["Имя", "Телефон"],
-    }
-  },
   components: {
     TableRow,
   },
@@ -31,6 +27,14 @@ export default {
     userList: {
       type: Array,
     },
+  },
+  emits: {
+    sortUserList: null,
+  },
+  methods: {
+    onTableHeadClick() {
+      this.$emit("sortUserList")
+    }
   },
 }
 </script>
@@ -51,6 +55,10 @@ td {
 th {
   background: var(--bg-secondary-color);
   padding: 0.5em;
+}
+
+.table-header {
+  cursor: pointer;
 }
 
 .table-cell {
@@ -94,8 +102,4 @@ th {
     width: 100%;
   }
 } */
-
-.plus-icon {
-  width: 10px;
-}
 </style>

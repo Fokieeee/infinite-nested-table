@@ -1,19 +1,18 @@
 <template>
   <template v-for="user in userList" :key="user.id">
-    <tr class="table-row">
+    <tr class="table-row" @click="toggleChildren(user)">
       <td
         class="table-cell name"
         :style="{ marginLeft: getMarginLeft(user) + 'px' }"
+        :class="{ hasChildren: user.children }"
       >
         <PlusIcon
           class="plus-icon"
           v-if="user.children && !user.isChildrenOpen"
-          @click="openChildren(user)"
         />
         <MinusIcon
           class="plus-icon"
           v-if="user.children && user.isChildrenOpen"
-          @click="closeChildren(user)"
         />
         <p class="name-text">{{ user.fullName }}</p>
       </td>
@@ -39,17 +38,14 @@ export default {
   },
   components: {
     PlusIcon,
-    MinusIcon
+    MinusIcon,
   },
   methods: {
     getMarginLeft(user) {
       return user.level * 20
     },
-    openChildren(user) {
-      user.isChildrenOpen = true
-    },
-    closeChildren(user) {
-      user.isChildrenOpen = false
+    toggleChildren(user) {
+      user.isChildrenOpen = !user.isChildrenOpen
     },
   },
 }
@@ -66,6 +62,10 @@ export default {
 td {
   border: 1px solid black;
   padding: 0.5em;
+}
+
+td.hasChildren {
+  cursor: pointer;
 }
 
 th {
@@ -117,6 +117,5 @@ th {
 
 .plus-icon {
   width: 10px;
-  cursor: pointer;
 }
 </style>
