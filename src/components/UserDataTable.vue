@@ -9,21 +9,13 @@
     </thead>
 
     <tbody>
-      <template v-for="user in userList" :key="user.id">
-        <tr class="table-row">
-          <td class="table-cell name">
-            <PlusIcon class="plus-icon" />
-            <p class="name-text">{{ user.fullName }}</p>
-          </td>
-          <td class="table-cell phone">{{ user.phone }}</td>
-        </tr>
-      </template>
+      <TableRow :userList="userList" />
     </tbody>
   </table>
 </template>
 
 <script>
-import PlusIcon from "@/assets/icons/PlusIcon.vue"
+import TableRow from "./TableRow.vue"
 
 export default {
   name: "UserDataTable",
@@ -33,7 +25,7 @@ export default {
     }
   },
   components: {
-    PlusIcon,
+    TableRow,
   },
   props: {
     userList: {

@@ -19,9 +19,9 @@
         <p>Начальник</p>
 
         <select name="parents" class="parent-select" v-model="parentId">
-          <option disabled value="">Выберите начальника</option>
+          <option disabled value="null">Выберите начальника</option>
 
-          <template v-for="user in userList" :key="user.id">
+          <template v-for="user in allUsers" :key="user.id">
             <option :value="user.id">{{ user.fullName }}</option>
           </template>
         </select>
@@ -61,13 +61,32 @@ export default {
     close: null,
     submit: null,
   },
+  computed: {
+    allUsers() {
+      const allUsers = []
+
+      const extractAllUsers = (userList) => {
+        for (let user of userList) {
+          allUsers.push(user)
+
+          if (user.children && user.children.length > 0) {
+            extractAllUsers(user.children)
+          }
+        }
+      }
+
+      extractAllUsers(this.userList)
+      return allUsers
+    },
+  },
   methods: {
     close() {
       this.$emit("close")
     },
     submit() {
-      const newUserLevel =
-        this.userList.find((user) => user.id === this.parentId).level + 1
+      const newUserLevel = this.parentId
+        ? this.allUsers.find((user) => user.id === this.parentId).level + 1
+        : 0
       this.$emit("submit", {
         id: uuid.v1(),
         fullName: this.fullName,
