@@ -1,26 +1,26 @@
 <template>
-  <template v-for="user in userList" :key="user.id">
-    <tr class="table-row" @click="toggleChildren(user)">
+  <template v-for="user in users" :key="user.id">
+    <tr @click="toggleChildren(user)" class="table-row">
       <td
         class="table-cell name"
-        :style="{ marginLeft: getMarginLeft(user) + 'px' }"
-        :class="{ hasChildren: user.children }"
+        :style="{ 'margin-left': tableRowMargin(user) }"
+        :class="{ 'has-children': user.children }"
       >
-        <PlusIcon
-          class="plus-icon"
+        <plus-icon
           v-if="user.children && !user.isChildrenOpen"
-        />
-        <MinusIcon
           class="plus-icon"
+        />
+        <minus-icon
           v-if="user.children && user.isChildrenOpen"
+          class="plus-icon"
         />
         <p class="name-text">{{ user.fullName }}</p>
       </td>
       <td class="table-cell phone">{{ user.phone }}</td>
     </tr>
-    <TableRow
+    <table-row
       v-if="user.children && user.isChildrenOpen"
-      :userList="user.children"
+      :users="user.children"
     />
   </template>
 </template>
@@ -32,7 +32,7 @@ import MinusIcon from "@/assets/icons/MinusIcon.vue"
 export default {
   name: "TableRow",
   props: {
-    userList: {
+    users: {
       type: Array,
     },
   },
@@ -40,10 +40,12 @@ export default {
     PlusIcon,
     MinusIcon,
   },
-  methods: {
-    getMarginLeft(user) {
-      return user.level * 20
+  computed: {
+    tableRowMargin() {
+      return (user) => `${user.level * 20}px`
     },
+  },
+  methods: {
     toggleChildren(user) {
       user.isChildrenOpen = !user.isChildrenOpen
     },
@@ -64,7 +66,7 @@ td {
   padding: 0.5em;
 }
 
-td.hasChildren {
+td.has-children {
   cursor: pointer;
 }
 
@@ -89,31 +91,6 @@ th {
 .name-text {
   margin-left: 1rem;
 }
-
-/* @media screen and (max-width: var(--tablet-width)) {
-  th,
-  td {
-    width: auto;
-    display: block;
-    border: 0;
-  }
-
-  th {
-    border-left: solid 1px var(--table-border);
-    border-right: solid 1px var(--table-border);
-    border-bottom: solid 1px var(--table-border);
-  }
-
-  td {
-    border-left: solid 1px var(--table-border);
-    border-right: solid 1px var(--table-border);
-    border-bottom: solid 1px var(--table-border);
-  }
-
-  .flex-row {
-    width: 100%;
-  }
-} */
 
 .plus-icon {
   width: 10px;

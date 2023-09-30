@@ -1,6 +1,6 @@
 <template>
-  <div class="modal-backdrop" @click.stop="close">
-    <div class="modal" @click.stop>
+  <div @click.stop="close" class="modal-backdrop">
+    <div @click.stop class="modal">
       <slot name="header"> </slot>
 
       <slot name="body"> </slot>

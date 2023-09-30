@@ -1,5 +1,5 @@
 <template>
-  <DefaultModal @close="close">
+  <default-modal @close="close">
     <template v-slot:header>
       <p>Добавить пользователя</p>
     </template>
@@ -7,35 +7,33 @@
     <template v-slot:body>
       <div class="name-input-container">
         <p>Имя</p>
-        <input type="Text" placeholder="Иван Иванов" v-model="fullName" />
+        <input type="Text" v-model="fullName" placeholder="Иван Иванов" />
       </div>
 
       <div class="phone-input-container">
         <p>Телефон</p>
-        <input type="tel" placeholder="Номер телефона" v-model="phone" />
+        <input type="tel" v-model="phone" placeholder="Номер телефона" />
       </div>
 
       <div class="parent-select-container">
         <p>Начальник</p>
 
-        <select name="parents" class="parent-select" v-model="parentId">
+        <select v-model="parentId" name="parents" class="parent-select">
           <option disabled value="null">Выберите начальника</option>
           <option value="">Главный начальник</option>
 
-          <template v-for="user in allUsers" :key="user.id">
-            <option :value="user.id">{{ user.fullName }}</option>
-          </template>
+          <option v-for="user in allUsers" :key="user.id" :value="user.id">
+            {{ user.fullName }}
+          </option>
         </select>
       </div>
     </template>
 
     <template v-slot:footer>
-      <MainButton @click="submit">
-        Сохранить
-      </MainButton>
-      <p v-if="incorrectSubmit">Заполните все поля *</p>
+      <main-button @click="submit"> Сохранить </main-button>
+      <p v-if="isValidData">Заполните все поля *</p>
     </template>
-  </DefaultModal>
+  </default-modal>
 </template>
 
 <script>
@@ -50,7 +48,7 @@ export default {
     MainButton,
   },
   props: {
-    userList: {
+    users: {
       type: Array,
     },
   },
@@ -59,7 +57,7 @@ export default {
       fullName: null,
       phone: "+7",
       parentId: null,
-      incorrectSubmit: false,
+      isValidData: false,
     }
   },
   emits: {
@@ -70,8 +68,8 @@ export default {
     allUsers() {
       const allUsers = []
 
-      const extractAllUsers = (userList) => {
-        for (let user of userList) {
+      const extractAllUsers = (users) => {
+        for (let user of users) {
           allUsers.push(user)
 
           if (user.children && user.children.length > 0) {
@@ -80,11 +78,13 @@ export default {
         }
       }
 
-      extractAllUsers(this.userList)
+      extractAllUsers(this.users)
       return allUsers
     },
     isFormFilled() {
-      return !!this.fullName && !!this.phone && this.parentId !== null
+      return (
+        Boolean(this.fullName) && Boolean(this.phone) && this.parentId !== null
+      )
     },
   },
   methods: {
@@ -102,11 +102,11 @@ export default {
           phone: this.phone,
           parentId: this.parentId,
           level: newUserLevel,
-          isChildrenOpen: false
+          isChildrenOpen: false,
         })
         this.close()
       } else {
-        this.incorrectSubmit = true
+        this.isValidData = true
       }
     },
   },

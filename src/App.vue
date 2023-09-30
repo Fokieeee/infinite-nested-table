@@ -1,11 +1,11 @@
 <template>
-  <MainButton @click="showUserFormModal"> Добавить </MainButton>
-  <UserDataTable :userList="userList" @sortUserList="sortUserList" />
-  <UserFormModal
+  <main-button @click="showUserFormModal"> Добавить </main-button>
+  <user-data-table :users="users" @sortUsers="sortUsers" />
+  <user-form-modal
     v-if="isModalVisible"
     @close="closeUserFormModal"
     @submit="addNewUser"
-    :userList="userList"
+    :users="users"
   />
 </template>
 
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       isModalVisible: false,
-      userList: [
+      users: [
         {
           id: "123",
           fullName: "Илья",
@@ -89,8 +89,8 @@ export default {
     }
   },
   created() {
-    const stringifiedUserList = JSON.parse(localStorage.getItem("userList"))
-    this.userList = stringifiedUserList
+    const users = JSON.parse(localStorage.getItem("users"))
+    this.users = users
   },
   methods: {
     showUserFormModal() {
@@ -100,29 +100,29 @@ export default {
       this.isModalVisible = false
     },
     addNewUser(newUser) {
-      this.insertUser(this.userList, newUser)
+      this.insertUser(this.users, newUser)
     },
-    insertUser(userList, newUser) {
+    insertUser(users, newUser) {
       if (newUser.level === 0) {
-        userList.push(newUser)
+        users.push(newUser)
       } else {
-        for (const user of userList) {
+        users.forEach((user) => {
           if (user.id === newUser.parentId) {
             if (!user.children) {
               user.children = []
             }
             user.children.push(newUser)
-            break
+            // break
           } else if (user.children) {
             this.insertUser(user.children, newUser)
           }
-        }
+        })
       }
-      localStorage.setItem("userList", JSON.stringify(this.userList))
+      localStorage.setItem("users", JSON.stringify(this.users))
     },
-    sortUserList() {
-      this.userList = this.recursiveSort(this.userList)
-      localStorage.setItem("userList", JSON.stringify(this.userList))
+    sortUsers() {
+      this.users = this.recursiveSort(this.users)
+      localStorage.setItem("users", JSON.stringify(this.users))
     },
     recursiveSort(arr) {
       arr.sort((a, b) => {

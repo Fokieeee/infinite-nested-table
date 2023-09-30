@@ -10,7 +10,7 @@
     </thead>
 
     <tbody>
-      <TableRow :userList="userList" />
+      <table-row :users="users" />
     </tbody>
   </table>
 </template>
@@ -24,16 +24,16 @@ export default {
     TableRow,
   },
   props: {
-    userList: {
+    users: {
       type: Array,
     },
   },
   emits: {
-    sortUserList: null,
+    sortUsers: null,
   },
   methods: {
     onTableHeadClick() {
-      this.$emit("sortUserList")
+      this.$emit("sortUsers")
     }
   },
 }
