@@ -1,7 +1,7 @@
 <template>
-  <table class="table-container">
+  <table class="table">
     <thead @click="handleTableHeadClick">
-      <tr class="table-header">
+      <tr class="header">
         <th class="head-cell">Имя</th>
 
         <th class="head-cell">Телефон</th>
@@ -40,12 +40,12 @@ export default {
 </script>
 
 <style scoped>
-.table-container {
-  margin: 1em auto;
-  width: 90%;
-  max-width: 600px;
+.table {
+  /* margin: 1em auto; */
+  width: 80%;
+  max-width: 700px;
   border-collapse: collapse;
-  border: 1px solid black;
+  border: 1px solid #dddddd;
 }
 
 .head-cell {
@@ -54,7 +54,7 @@ export default {
   padding: 0.5em;
 }
 
-.table-header {
+.header {
   cursor: pointer;
 }
 </style>

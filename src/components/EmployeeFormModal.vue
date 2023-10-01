@@ -5,18 +5,29 @@
     </template>
 
     <template v-slot:body>
-      <div class="name-input-container">
-        <p>Имя</p>
-        <input type="Text" v-model="fullName" placeholder="Иван Иванов" />
+      <div class="text-input-container name">
+        <label class="text-input-label">Имя</label>
+        <input
+          type="Text"
+          v-model="fullName"
+          placeholder="Иван Иванов"
+          class="text-input"
+        />
       </div>
 
-      <div class="phone-input-container">
-        <p>Телефон</p>
-        <input type="tel" v-model="phone" placeholder="Номер телефона" />
+      <div class="text-input-container phone">
+        <label class="text-input-label">Телефон</label>
+        <input
+          label="телефон"
+          type="tel"
+          v-model="phone"
+          placeholder="Номер телефона"
+          class="text-input"
+        />
       </div>
 
       <div class="parent-select-container">
-        <p>Начальник</p>
+        <label>Начальник</label>
 
         <select v-model="parentId" name="parents" class="parent-select">
           <option disabled value="null">Выберите начальника</option>
@@ -122,7 +133,36 @@ export default {
 </script>
 
 <style scoped>
+.text-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.text-input-label {
+  margin-top: 1rem;
+}
+
+.text-input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 2px 0;
+  background: transparent;
+}
+
+.parent-select-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
 .parent-select {
-  all: unset;
+  width: 100%;
+  border: 0;
+  padding: 0.3rem;
 }
 </style>

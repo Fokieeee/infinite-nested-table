@@ -1,7 +1,9 @@
 <template>
-  <default-button @click="openEmployeeFormModal"> Добавить </default-button>
+  <div class="table-container">
+    <default-button @click="openEmployeeFormModal"> Добавить </default-button>
 
-  <employee-table @sortEmployees="sortEmployees" :employees="employees" />
+    <employee-table @sortEmployees="sortEmployees" :employees="employees" />
+  </div>
 
   <employee-form-modal
     v-if="isModalVisible"
@@ -117,4 +119,14 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 1em;
+  padding: 1em;
+}
+</style>

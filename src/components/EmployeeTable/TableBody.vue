@@ -59,11 +59,12 @@ export default {
 </script>
 
 <style scoped>
-
 td {
-  border-top: 1px solid black;
-  border-right: 1px solid black;
   padding: 0.5em;
+}
+
+tr {
+  border: 1px solid #dddddd;
 }
 
 td.has-children {

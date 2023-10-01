@@ -1,11 +1,17 @@
 <template>
   <div @click="close" class="modal-backdrop">
     <div @click.stop class="modal">
-      <slot name="header"> </slot>
+      <div class="header">
+        <slot name="header"> </slot>
+      </div>
 
-      <slot name="body"> </slot>
+      <div class="body">
+        <slot name="body"> </slot>
+      </div>
 
-      <slot name="footer"> </slot>
+      <div class="footer">
+        <slot name="footer"> </slot>
+      </div>
     </div>
   </div>
 </template>
@@ -14,7 +20,7 @@
 export default {
   name: "DefaultModal",
   emits: {
-    closeModal: null,
+    close: null,
   },
   methods: {
     close() {
@@ -46,47 +52,15 @@ export default {
   padding: 2rem;
 }
 
-.modal-header,
-.modal-footer {
-  padding: 15px;
-  display: flex;
+.header {
+  font: var(--font-l);
 }
 
-.modal-header {
-  position: relative;
-  border-bottom: 1px solid #eeeeee;
-  color: #4aae9b;
-  justify-content: space-between;
+.body {
+  margin-top: 0.5em;
 }
 
-.modal-footer {
-  border-top: 1px solid #eeeeee;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.modal-body {
-  position: relative;
-  padding: 20px 10px;
-}
-
-.btn-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: none;
-  font-size: 20px;
-  padding: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #4aae9b;
-  background: transparent;
-}
-
-.btn-green {
-  color: white;
-  background: #4aae9b;
-  border: 1px solid #4aae9b;
-  border-radius: 2px;
+.footer {
+  margin-top: 2em;
 }
 </style>

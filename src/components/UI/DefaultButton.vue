@@ -21,12 +21,7 @@ export default {
 
 .main-button:hover,
 .main-button:focus {
-  background: var(--bg-secondary-color-lighter);
-}
-
-.main-button:focus {
-  outline: 1px solid #fff;
-  outline-offset: -4px;
+  background: var(--bg-secondary-color-darker);
 }
 
 .main-button:active {

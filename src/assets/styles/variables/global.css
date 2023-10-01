@@ -18,11 +18,11 @@
 
   /*colors */
   --bg-color: #f5f5f5;
-  --bg-secondary-color: #a99b9b;
-  --bg-secondary-color-lighter: #9a8e8e;
+  --bg-secondary-color: #d5d5d5;
+  --bg-secondary-color-darker: #b2b2b2;
   --primary-color: #161716;
   --secondary-color: #008080;
-  --table-border: #000000;
+  --border: #dddddd;
 
   /*window sizes */
   --tablet-width: 769px;
