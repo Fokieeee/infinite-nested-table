@@ -32,14 +32,14 @@ export default {
       employees: [
         {
           id: "123",
-          fullName: "Илья",
+          name: "Илья",
           phone: "+2423423",
           level: 0,
           isChildrenOpen: false,
           children: [
             {
               id: "321",
-              fullName: "Андрей илья child",
+              name: "Андрей илья child",
               phone: "+2423423",
               parentId: "123",
               level: 1,
@@ -47,7 +47,7 @@ export default {
             },
             {
               id: "333",
-              fullName: "Никита илья child",
+              name: "Никита илья child",
               phone: "+2423423",
               parentId: "123",
               level: 1,
@@ -55,7 +55,7 @@ export default {
               children: [
                 {
                   id: "4",
-                  fullName: "Вася Никита child",
+                  name: "Вася Никита child",
                   phone: "+3242",
                   parentId: "333",
                   level: 2,
@@ -67,14 +67,14 @@ export default {
         },
         {
           id: "334",
-          fullName: "Никита",
+          name: "Никита",
           phone: "+2423423",
           level: 0,
           isChildrenOpen: false,
           children: [
             {
               id: "335",
-              fullName: "Влад никита child",
+              name: "Влад никита child",
               phone: "+2423423",
               parentId: "334",
               level: 1,
@@ -82,7 +82,7 @@ export default {
             },
             {
               id: "336",
-              fullName: "Валера никита child",
+              name: "Валера никита child",
               phone: "+2423423",
               parentId: "334",
               level: 1,

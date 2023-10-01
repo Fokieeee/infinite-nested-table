@@ -1,5 +1,5 @@
 const sortArray = (array) => {
-  array.sort((a, b) => a.fullName.localeCompare(b.fullName))
+  array.sort((a, b) => a.name.localeCompare(b.name))
 
   for (const item of array) {
     if (item.children && item.children.length > 0) {
@@ -26,4 +26,21 @@ const addItemToArray = (array, newItem) => {
   }
 }
 
-export { addItemToArray, sortArray }
+const flattenArray = (array) => {
+  const flattenedArray = []
+
+  const extractItems = (array) => {
+    for (let item of array) {
+      flattenedArray.push(item)
+
+      if (item.children && item.children.length > 0) {
+        extractItems(item.children)
+      }
+    }
+  }
+
+  extractItems(array)
+  return flattenedArray
+}
+
+export { addItemToArray, sortArray, flattenArray }

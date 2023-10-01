@@ -16,7 +16,7 @@
           class="plus-icon"
         />
 
-        <p class="name-text">{{ employee.fullName }}</p>
+        <p class="name-text">{{ employee.name }}</p>
       </td>
 
       <td class="table-cell phone">{{ employee.phone }}</td>
