@@ -1,12 +1,14 @@
 <template>
-  <div class="table-container">
+  <div class="employee-management-container">
     <default-button @click="openEmployeeFormModal"> Добавить </default-button>
 
     <employee-table
+      v-if="tableHasEmployees"
       @sortEmployees="sortEmployees"
       @updateEmployees="updateEmployees"
       :employees="employees"
     />
+    <p v-else>Добавьте сорудника</p>
   </div>
 
   <employee-form-modal
@@ -33,11 +35,16 @@ export default {
   data() {
     return {
       isModalVisible: false,
-      employees: null
+      employees: null,
     }
   },
   created() {
     this.loadEmployeesFromLocalStorage()
+  },
+  computed: {
+    tableHasEmployees() {
+      return this.employees.length > 0
+    },
   },
   methods: {
     loadEmployeesFromLocalStorage() {
@@ -70,7 +77,7 @@ export default {
 </script>
 
 <style scoped>
-.table-container {
+.employee-management-container {
   display: flex;
   justify-content: center;
   align-items: center;

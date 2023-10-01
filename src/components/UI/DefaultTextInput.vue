@@ -2,9 +2,10 @@
   <div class="text-input-container">
     <label v-if="hasLabel" class="text-input-label">{{ label }}</label>
     <input
+      @input="handleInput"
       :type="type"
       :placeholder="placeholder"
-      @input="handleInput"
+      :value="modelValue"
       class="text-input"
     />
   </div>
@@ -30,14 +31,17 @@ export default {
       type: Boolean,
       default: true,
     },
+    modelValue: {
+      type: String,
+    },
   },
   emits: {
-    inputValue: null,
+    "update:modelValue": null,
   },
   methods: {
     handleInput(event) {
       const value = event.target.value
-      this.$emit("inputValue", value)
+      this.$emit("update:modelValue", value)
     },
   },
 }

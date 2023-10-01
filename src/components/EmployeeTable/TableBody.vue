@@ -9,12 +9,12 @@
         <div class="icon-container">
           <plus-icon
             v-if="employee.children && !employee.isChildrenOpen"
-            class="plus-icon"
+            class="icon"
           />
 
           <minus-icon
             v-if="employee.children && employee.isChildrenOpen"
-            class="plus-icon"
+            class="icon"
           />
         </div>
 
@@ -69,24 +69,17 @@ export default {
 </script>
 
 <style scoped>
-.table-cell {
-  padding: 0.5em;
-}
-
 .table-row {
   border: 1px solid var(--border-color);
 }
 
+.table-cell {
+  padding: 0.5em;
+  text-align: center;
+}
+
 .table-cell.has-children {
   cursor: pointer;
-}
-
-.icon-container {
-  width: 20px;
-}
-
-.table-cell {
-  text-align: center;
 }
 
 .table-cell.name {
@@ -100,11 +93,15 @@ export default {
   padding-left: 1.5rem;
 }
 
-.name-text {
-  margin-left: 1rem;
+.icon-container {
+  width: 20px;
 }
 
-.plus-icon {
+.icon {
   width: 10px;
+}
+
+.name-text {
+  margin-left: 1rem;
 }
 </style>

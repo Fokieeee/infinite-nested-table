@@ -9,14 +9,14 @@
         label="Имя"
         placeholder="Иван"
         type="text"
-        @inputValue="handleNameValue"
+        v-model="name"
       />
 
       <default-text-input
         label="Телефон"
         placeholder="+ 7 (...) .. .. .."
         type="tel"
-        @inputValue="handlePhoneValue"
+        v-model="phone"
       />
 
       <div class="parent-select-container">
@@ -39,7 +39,7 @@
 
     <template v-slot:footer>
       <default-button @click="submit"> Сохранить </default-button>
-      
+
       <p v-if="isCaveatVisible">Заполните все поля *</p>
     </template>
   </default-modal>
@@ -104,12 +104,6 @@ export default {
       } else {
         this.isCaveatVisible = true
       }
-    },
-    handleNameValue(value) {
-      this.name = value
-    },
-    handlePhoneValue(value) {
-      this.phone = value
     },
     close() {
       this.$emit("close")
