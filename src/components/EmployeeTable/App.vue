@@ -1,7 +1,7 @@
 <template>
   <table class="table">
-    <thead @click="handleTableHeadClick">
-      <tr class="header">
+    <thead>
+      <tr @click="handleTableHeadClick" class="header">
         <th class="head-cell">Имя</th>
 
         <th class="head-cell">Телефон</th>
@@ -9,7 +9,7 @@
     </thead>
 
     <tbody>
-      <table-body :employees="employees" />
+      <table-body @updateEmployees="updateEmployees" :employees="employees" />
     </tbody>
   </table>
 </template>
@@ -30,10 +30,14 @@ export default {
   },
   emits: {
     sortEmployees: null,
+    updateEmployees: null,
   },
   methods: {
     handleTableHeadClick() {
       this.$emit("sortEmployees")
+    },
+    updateEmployees(newEmployees) {
+      this.$emit("updateEmployees", newEmployees)
     },
   },
 }
@@ -41,20 +45,21 @@ export default {
 
 <style scoped>
 .table {
-  /* margin: 1em auto; */
   width: 80%;
   max-width: 700px;
   border-collapse: collapse;
-  border: 1px solid #dddddd;
-}
-
-.head-cell {
-  font: var(--font-l);
-  background: var(--bg-secondary-color);
-  padding: 0.5em;
 }
 
 .header {
   cursor: pointer;
+  background: var(--bg-secondary-color);
+}
+.head-cell {
+  font: var(--font-l);
+  padding: 0.5rem;
+  width: 50%;
+  border: 1px solid var(--bg-secondary-color);
+  text-align: left;
+  padding-left: 1rem;
 }
 </style>

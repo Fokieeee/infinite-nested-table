@@ -24,7 +24,6 @@
 
         <select v-model="parentId" name="parents" class="parent-select">
           <option disabled value="null">Выберите начальника</option>
-
           <option value="">Главный начальник</option>
 
           <option
@@ -40,8 +39,8 @@
 
     <template v-slot:footer>
       <default-button @click="submit"> Сохранить </default-button>
-
-      <p v-if="isValidData">Заполните все поля *</p>
+      
+      <p v-if="isCaveatVisible">Заполните все поля *</p>
     </template>
   </default-modal>
 </template>
@@ -71,7 +70,7 @@ export default {
       name: null,
       phone: null,
       parentId: null,
-      isValidData: false,
+      isCaveatVisible: false,
     }
   },
   emits: {
@@ -87,15 +86,6 @@ export default {
     },
   },
   methods: {
-    handleNameValue(value) {
-      this.name = value
-    },
-    handlePhoneValue(value) {
-      this.phone = value
-    },
-    close() {
-      this.$emit("close")
-    },
     submit() {
       if (this.isFormFilled) {
         const newEmployeeLevel = this.parentId
@@ -106,14 +96,23 @@ export default {
           id: uuid.v1(),
           name: this.name,
           phone: this.phone,
-          parentId: this.parentId,
+          parentId: this.parentId ? this.parentId : null,
           level: newEmployeeLevel,
           isChildrenOpen: false,
         })
         this.close()
       } else {
-        this.isValidData = true
+        this.isCaveatVisible = true
       }
+    },
+    handleNameValue(value) {
+      this.name = value
+    },
+    handlePhoneValue(value) {
+      this.phone = value
+    },
+    close() {
+      this.$emit("close")
     },
   },
 }

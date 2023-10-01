@@ -1,6 +1,6 @@
 <template>
   <button type="button" class="main-button">
-    <slot />
+    <slot></slot>
   </button>
 </template>
 
@@ -19,8 +19,7 @@ export default {
   border-radius: 5px;
 }
 
-.main-button:hover,
-.main-button:focus {
+.main-button:hover {
   background: var(--bg-secondary-color-darker);
 }
 

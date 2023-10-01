@@ -2,7 +2,11 @@
   <div class="table-container">
     <default-button @click="openEmployeeFormModal"> Добавить </default-button>
 
-    <employee-table @sortEmployees="sortEmployees" :employees="employees" />
+    <employee-table
+      @sortEmployees="sortEmployees"
+      @updateEmployees="updateEmployees"
+      :employees="employees"
+    />
   </div>
 
   <employee-form-modal
@@ -29,68 +33,7 @@ export default {
   data() {
     return {
       isModalVisible: false,
-      employees: [
-        {
-          id: "123",
-          name: "Илья",
-          phone: "+2423423",
-          level: 0,
-          isChildrenOpen: false,
-          children: [
-            {
-              id: "321",
-              name: "Андрей илья child",
-              phone: "+2423423",
-              parentId: "123",
-              level: 1,
-              isChildrenOpen: false,
-            },
-            {
-              id: "333",
-              name: "Никита илья child",
-              phone: "+2423423",
-              parentId: "123",
-              level: 1,
-              isChildrenOpen: false,
-              children: [
-                {
-                  id: "4",
-                  name: "Вася Никита child",
-                  phone: "+3242",
-                  parentId: "333",
-                  level: 2,
-                  isChildrenOpen: false,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: "334",
-          name: "Никита",
-          phone: "+2423423",
-          level: 0,
-          isChildrenOpen: false,
-          children: [
-            {
-              id: "335",
-              name: "Влад никита child",
-              phone: "+2423423",
-              parentId: "334",
-              level: 1,
-              isChildrenOpen: false,
-            },
-            {
-              id: "336",
-              name: "Валера никита child",
-              phone: "+2423423",
-              parentId: "334",
-              level: 1,
-              isChildrenOpen: false,
-            },
-          ],
-        },
-      ],
+      employees: null
     }
   },
   created() {
@@ -103,17 +46,24 @@ export default {
     },
     addNewEmployee(newEmployee) {
       addItemToArray(this.employees, newEmployee)
-      localStorage.setItem("employees", JSON.stringify(this.employees))
+      this.addEmployeesToLocalStorage()
     },
     sortEmployees() {
       this.employees = sortArray(this.employees)
-      localStorage.setItem("employees", JSON.stringify(this.employees))
+      this.addEmployeesToLocalStorage()
     },
     openEmployeeFormModal() {
       this.isModalVisible = true
     },
     closeEmployeeFormModal() {
       this.isModalVisible = false
+    },
+    addEmployeesToLocalStorage() {
+      localStorage.setItem("employees", JSON.stringify(this.employees))
+    },
+    updateEmployees(newEmployees) {
+      this.employees = newEmployees
+      this.addEmployeesToLocalStorage()
     },
   },
 }

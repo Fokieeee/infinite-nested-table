@@ -22,9 +22,5 @@
   --bg-secondary-color-darker: #b2b2b2;
   --primary-color: #161716;
   --secondary-color: #008080;
-  --border: #dddddd;
-
-  /*window sizes */
-  --tablet-width: 769px;
-  --desktop-width: 1024px;
+  --border-color: #dddddd;
 }

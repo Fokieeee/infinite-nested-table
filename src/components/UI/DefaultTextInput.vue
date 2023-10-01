@@ -35,8 +35,8 @@ export default {
     inputValue: null,
   },
   methods: {
-    handleInput($event) {
-      const value = $event.target.value
+    handleInput(event) {
+      const value = event.target.value
       this.$emit("inputValue", value)
     },
   },
@@ -58,7 +58,7 @@ export default {
 .text-input {
   width: 100%;
   border: 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-color);
   padding: 2px 0;
   background: transparent;
 }
