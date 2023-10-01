@@ -1,5 +1,5 @@
 <template>
-  <div @click.stop="close" class="modal-backdrop">
+  <div @click="close" class="modal-backdrop">
     <div @click.stop class="modal">
       <slot name="header"> </slot>
 
@@ -12,24 +12,13 @@
 
 <script>
 export default {
-  name: "UserFormModal",
+  name: "DefaultModal",
   emits: {
     closeModal: null,
   },
   methods: {
     close() {
       this.$emit("close")
-    },
-    mounted() {
-      document.addEventListener("keydown", this.handleKeydown)
-    },
-    beforeUnmount() {
-      document.removeEventListener("keydown", this.handleKeydown)
-    },
-    handleKeydown(e) {
-      if (e.key === "Escape") {
-        this.close()
-      }
     },
   },
 }

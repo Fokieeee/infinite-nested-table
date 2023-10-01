@@ -1,30 +1,33 @@
 <template>
-  <main-button @click="showUserFormModal"> Добавить </main-button>
-  <user-data-table :users="users" @sortUsers="sortUsers" />
-  <user-form-modal
+  <default-button @click="openEmployeeFormModal"> Добавить </default-button>
+
+  <employee-table @sortEmployees="sortEmployees" :employees="employees" />
+
+  <employee-form-modal
     v-if="isModalVisible"
-    @close="closeUserFormModal"
-    @submit="addNewUser"
-    :users="users"
+    @close="closeEmployeeFormModal"
+    @submit="addNewEmployee"
+    :employees="employees"
   />
 </template>
 
 <script>
-import MainButton from "./components/DefaultButton/MainButton.vue"
-import UserDataTable from "./components/UserDataTable.vue"
-import UserFormModal from "./components/UserFormModal.vue"
+import DefaultButton from "@/components/UI/DefaultButton.vue"
+import EmployeeTable from "@/components/EmployeeTable/App.vue"
+import EmployeeFormModal from "@/components/EmployeeFormModal.vue"
+import { addItemToArray, sortArray } from "@/utils/arrayUtils"
 
 export default {
   name: "App",
   components: {
-    MainButton,
-    UserDataTable,
-    UserFormModal,
+    DefaultButton,
+    EmployeeTable,
+    EmployeeFormModal,
   },
   data() {
     return {
       isModalVisible: false,
-      users: [
+      employees: [
         {
           id: "123",
           fullName: "Илья",
@@ -89,54 +92,26 @@ export default {
     }
   },
   created() {
-    const users = JSON.parse(localStorage.getItem("users"))
-    this.users = users
+    this.loadEmployeesFromLocalStorage()
   },
   methods: {
-    showUserFormModal() {
+    loadEmployeesFromLocalStorage() {
+      const employees = JSON.parse(localStorage.getItem("employees")) || []
+      this.employees = employees
+    },
+    addNewEmployee(newEmployee) {
+      addItemToArray(this.employees, newEmployee)
+      localStorage.setItem("employees", JSON.stringify(this.employees))
+    },
+    sortEmployees() {
+      this.employees = sortArray(this.employees)
+      localStorage.setItem("employees", JSON.stringify(this.employees))
+    },
+    openEmployeeFormModal() {
       this.isModalVisible = true
     },
-    closeUserFormModal() {
+    closeEmployeeFormModal() {
       this.isModalVisible = false
-    },
-    addNewUser(newUser) {
-      this.insertUser(this.users, newUser)
-    },
-    insertUser(users, newUser) {
-      if (newUser.level === 0) {
-        users.push(newUser)
-      } else {
-        users.forEach((user) => {
-          if (user.id === newUser.parentId) {
-            if (!user.children) {
-              user.children = []
-            }
-            user.children.push(newUser)
-            // break
-          } else if (user.children) {
-            this.insertUser(user.children, newUser)
-          }
-        })
-      }
-      localStorage.setItem("users", JSON.stringify(this.users))
-    },
-    sortUsers() {
-      this.users = this.recursiveSort(this.users)
-      localStorage.setItem("users", JSON.stringify(this.users))
-    },
-    recursiveSort(arr) {
-      arr.sort((a, b) => {
-        if (a.fullName < b.fullName) return -1
-        if (a.fullName > b.fullName) return 1
-        return 0
-      })
-
-      for (const item of arr) {
-        if (item.children && item.children.length > 0) {
-          this.recursiveSort(item.children)
-        }
-      }
-      return arr
     },
   },
 }

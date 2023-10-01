@@ -20,36 +20,43 @@
 
         <select v-model="parentId" name="parents" class="parent-select">
           <option disabled value="null">Выберите начальника</option>
+
           <option value="">Главный начальник</option>
 
-          <option v-for="user in allUsers" :key="user.id" :value="user.id">
-            {{ user.fullName }}
+          <option
+            v-for="employee in allEmployees"
+            :key="employee.id"
+            :value="employee.id"
+          >
+            {{ employee.fullName }}
           </option>
         </select>
       </div>
     </template>
 
     <template v-slot:footer>
-      <main-button @click="submit"> Сохранить </main-button>
+      <default-button @click="submit"> Сохранить </default-button>
+
       <p v-if="isValidData">Заполните все поля *</p>
     </template>
   </default-modal>
 </template>
 
 <script>
-import MainButton from "./DefaultButton/MainButton.vue"
-import DefaultModal from "./DefaultModal.vue"
+import DefaultButton from "./UI/DefaultButton.vue"
+import DefaultModal from "./UI/DefaultModal.vue"
 import { uuid } from "vue-uuid"
 
 export default {
-  name: "UserFormModal",
+  name: "EmployeeFormModal",
   components: {
     DefaultModal,
-    MainButton,
+    DefaultButton,
   },
   props: {
-    users: {
+    employees: {
       type: Array,
+      default: () => [],
     },
   },
   data() {
@@ -65,21 +72,21 @@ export default {
     submit: null,
   },
   computed: {
-    allUsers() {
-      const allUsers = []
+    allEmployees() {
+      const allEmployees = []
 
-      const extractAllUsers = (users) => {
-        for (let user of users) {
-          allUsers.push(user)
+      const extractAllEmployees = (employees) => {
+        for (let employee of employees) {
+          allEmployees.push(employee)
 
-          if (user.children && user.children.length > 0) {
-            extractAllUsers(user.children)
+          if (employee.children && employee.children.length > 0) {
+            extractAllEmployees(employee.children)
           }
         }
       }
 
-      extractAllUsers(this.users)
-      return allUsers
+      extractAllEmployees(this.employees)
+      return allEmployees
     },
     isFormFilled() {
       return (
@@ -93,15 +100,16 @@ export default {
     },
     submit() {
       if (this.isFormFilled) {
-        const newUserLevel = this.parentId
-          ? this.allUsers.find((user) => user.id === this.parentId).level + 1
+        const newEmployeeLevel = this.parentId
+          ? this.allEmployees.find((employee) => employee.id === this.parentId)
+              .level + 1
           : 0
         this.$emit("submit", {
           id: uuid.v1(),
           fullName: this.fullName,
           phone: this.phone,
           parentId: this.parentId,
-          level: newUserLevel,
+          level: newEmployeeLevel,
           isChildrenOpen: false,
         })
         this.close()
