@@ -5,36 +5,40 @@
     </template>
 
     <template v-slot:body>
-      <default-text-input
-        label="Имя"
-        placeholder="Иван"
-        type="text"
-        v-model="name"
-      />
+      <form>
+        <default-text-input
+          label="Имя"
+          placeholder="Иван"
+          type="text"
+          v-model="name"
+        />
 
-      <default-text-input
-        label="Телефон"
-        placeholder="+ 7 (...) .. .. .."
-        type="tel"
-        v-model="phone"
-      />
+        <default-text-input
+          label="Телефон"
+          placeholder="+ 7 (...) .. .. .."
+          type="tel"
+          v-model="phone"
+        />
 
-      <div class="parent-select-container">
-        <label>Начальник</label>
+        <div class="parent-select-container">
+          <label>
+            Начальник
 
-        <select v-model="parentId" name="parents" class="parent-select">
-          <option disabled value="null">Выберите начальника</option>
-          <option value="">Главный начальник</option>
+            <select v-model="parentId" class="parent-select">
+              <option disabled value="null">Выберите начальника</option>
+              <option value="">Главный начальник</option>
 
-          <option
-            v-for="employee in allEmployees"
-            :key="employee.id"
-            :value="employee.id"
-          >
-            {{ employee.name }}
-          </option>
-        </select>
-      </div>
+              <option
+                v-for="employee in allEmployees"
+                :key="employee.id"
+                :value="employee.id"
+              >
+                {{ employee.name }}
+              </option>
+            </select>
+          </label>
+        </div>
+      </form>
     </template>
 
     <template v-slot:footer>
@@ -92,6 +96,7 @@ export default {
           ? this.allEmployees.find((employee) => employee.id === this.parentId)
               .level + 1
           : 0
+
         this.$emit("submit", {
           id: uuid.v1(),
           name: this.name,

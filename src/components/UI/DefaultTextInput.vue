@@ -1,13 +1,16 @@
 <template>
   <div class="text-input-container">
-    <label v-if="hasLabel" class="text-input-label">{{ label }}</label>
-    <input
-      @input="handleInput"
-      :type="type"
-      :placeholder="placeholder"
-      :value="modelValue"
-      class="text-input"
-    />
+    <label class="text-input-label">
+      {{ label }}
+
+      <input
+        @input="handleInput"
+        :type="type"
+        :placeholder="placeholder"
+        :value="modelValue"
+        class="text-input"
+      />
+    </label>
   </div>
 </template>
 
@@ -26,10 +29,6 @@ export default {
     type: {
       type: String,
       default: "text",
-    },
-    hasLabel: {
-      type: Boolean,
-      default: true,
     },
     modelValue: {
       type: String,
